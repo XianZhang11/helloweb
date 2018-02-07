@@ -1,4 +1,4 @@
-from bottle import template,default_app,get, post, request, route # or route
+from bottle import template,default_app,get, post, request, route,run # or route
 import sqlite3
 
 #DATABASE = '/home/hiffin/mysite/todo.db'
@@ -31,7 +31,7 @@ def do_login():
 def todo_list():
     conn = sqlite3.connect(DATABASE)
     c = conn.cursor()
-    c.execute("SELECT id, task FROM todo ")#WHERE status LIKE '1'")
+    c.execute("SELECT id, task FROM todo WHERE status LIKE '1'")
     result = c.fetchall()
 
     output = template('make_table', rows=result)
