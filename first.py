@@ -1,5 +1,6 @@
 from bottle import template,default_app,get, post, request, route,run # or route
 import sqlite3
+import tasks
 
 #DATABASE = '/home/hiffin/mysite/todo.db'
 DATABASE = 'todo.db'
@@ -32,11 +33,16 @@ def todo_list():
     conn = sqlite3.connect(DATABASE)
     c = conn.cursor()
     c.execute("SELECT id, task FROM todo WHERE status LIKE '1'")
+    
     result = c.fetchall()
-
+    print(result)
     output = template('make_table', rows=result)
     return output
-
+@route('/todoM')
+def todo_list_mongo():
+    result = list(tasks.current_tasks.find())
+    print (result)
+    output = template('make_table', rows=result)
 
 @get('/new')
 def new_item():
