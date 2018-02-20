@@ -1,6 +1,7 @@
 from bottle import template,default_app,get, post, request, route,run # or route
 import sqlite3
 import tasks
+import tuling
 
 #DATABASE = '/home/hiffin/mysite/todo.db'
 DATABASE = 'todo.db'
@@ -27,7 +28,13 @@ def do_login():
         return "<p>Your login information was correct.</p>"
     else:
         return "<p>Login failed.</p>"
-@route('/')
+@route('/<what>')
+def index(what="hello"):
+    r = tuling.tuling(what)
+    return r
+
+
+@route('/')    
 @route('/todo')
 def todo_list():
     conn = sqlite3.connect(DATABASE)
@@ -64,4 +71,4 @@ def post_new():
     return '<p>The new task was inserted into the database, the ID is %s</p>' % new_id
 
 #application = default_app()
-run(host='localhost', port=8080)
+run(host='0.0.0.0', port=80)
